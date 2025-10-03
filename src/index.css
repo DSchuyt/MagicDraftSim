@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles merged from App.css */
+body {
+  background-color:#333;
+}
+
+.set-box button {
+  cursor:pointer;
+  overflow:visible;
+  text-align:left;
+}
+
+.set-box img {
+
+}
+
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
