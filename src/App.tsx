@@ -10,7 +10,10 @@ import { playerSlice } from './store';
 import type { RootState } from './store';
 
 function App() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const playerValues = [2, 3, 4, 5, 6, 7, 8];
+  const boosterValues = [0, 1, 2];
 
   const [allSets, setAllSets] = useState<any[]>([]);
   const [isDrafting, setIsDrafting] = useState<boolean>(false);
@@ -50,14 +53,14 @@ function App() {
       { 
         !isDrafting && !finishedDrafting ? (
           <div className="min-h-screen flex items-center text-gray-50 flex-col space-y-10">
-            <div className="grid grid-cols-3 gap-10 top-0">
-              {[0, 1, 2].map(idx => (
+            <div className="grid grid-cols-3 gap-10 top-0 mt-[30px]">
+              {boosterValues.map(idx => (
                 <BoosterPackSelector key={idx} index={idx} setList={allSets} />
               ))}
             </div>
             <div className="text-white space-x-10">
               <select className="text-white bg-gray-900 p-3 border rounded" aria-label="Select number of players" onChange={e => dispatch(playerSlice.actions.setPlayers(Number(e.target.value)))}>
-                {[2, 3, 4, 5, 6, 7, 8].map(n => (
+                {playerValues.map(n => (
                   <option key={n} value={n}>{n} Players</option>
                 ))}
               </select>

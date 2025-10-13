@@ -17,7 +17,7 @@ const CardStack: React.FC<CardStackProps> = ({ cards, onCardClick, onCardHover, 
 
       return (
         <div
-          key={stackIdx + "_" + idy}
+          key={card.customId || card.id || `${stackIdx}_${idy}`}
           className={`cursor-pointer m-1 relative transition-all duration-100 ${stacked && !isFirst ? "-mt-[110%]" : ""} ${hovered.idx === stackIdx && hovered.idy !== -1 && idy === hovered.idy + 1 ? "mt-[-10%]" : ""}`}
           onClick={() => onCardClick(card)}
           onMouseEnter={() => onCardHover(stackIdx, idy)}

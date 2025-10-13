@@ -4,12 +4,9 @@ import { chosenCardsSlice, boosterSlice, basicLandSlice, type RootState } from '
 import type { Card } from "./types";
 import Inventory from "./Inventory";
 import * as Scry from "scryfall-sdk";
+import { createCardFromScryfall } from "./CardUtils";
 
-interface DraftProps {
-    handleFinishDraft: () => void;
-}
-
-const Draft: React.FC<DraftProps> = ({ handleFinishDraft }) => {
+const Draft = ({ handleFinishDraft }: { handleFinishDraft: () => void }) => {
   const dispatch = useDispatch();
 
   const [currentBoosterSet, setCurrentBoosterSet] = useState<number>(0);
@@ -32,32 +29,19 @@ const Draft: React.FC<DraftProps> = ({ handleFinishDraft }) => {
     simulateCardPick();
   }
 
-  useEffect(() => {
-    const firstBoosterSet = boosterSetsState.boosterSets[0].setCode;
-    
-    const generateBasicLand = async (name: string, set: string) => {
-      try {
-        const card = await Scry.Cards.byName(name, set.toUpperCase());
-  
-        const newBasicLand: Card = { 
-            id: card.id || "",
-            name: card.name,
-            image: card.image_uris?.normal ?? "",
-            mana_cost: card.mana_cost || "",
-            colors: card.colors || [],
-            rarity: card.rarity || "",
-            set_name: card.set_name || "",
-            set_code: card.set || "",
-            cmc: card.cmc,
-            customId: ""
-        }
-  
-        dispatch(basicLandSlice.actions.addBasicLand({ card: newBasicLand }));
-  
-      } catch (err) {
-        console.log("Error in finding land " + name);
-      }
+  const generateBasicLand = async (name: string, set: string) => {
+    try {
+      const card = await Scry.Cards.byName(name, set.toUpperCase());
+      const newBasicLand: Card = createCardFromScryfall(card);
+      dispatch(basicLandSlice.actions.addBasicLand({ card: newBasicLand }));
+    } catch (err) {
+      console.log("Error in finding land " + name);
     }
+  }
+
+  useEffect(() => {
+    //Generate lands based on the first set picked - Don't have to wait for this process
+    const firstBoosterSet = boosterSetsState.boosterSets[0].setCode;
 
     ["Plains", "Island", "Swamp", "Mountain", "Forest"].forEach((land) => {
       generateBasicLand(land, firstBoosterSet);

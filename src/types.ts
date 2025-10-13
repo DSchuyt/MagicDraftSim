@@ -15,6 +15,7 @@ export interface Card {
   set_code: string;
   cmc: number;
   customId: string;
+  type: string;
 }
 
 export interface BoosterPack {

@@ -10,9 +10,10 @@ const DeckCreator: React.FC = () => {
   const [cardsInDeck, setCardsInDeck] = useState<Card[]>(chosenCardInventory);
   const [cardsNotInDeck, setCardsNotInDeck] = useState<Card[]>([]);
   const [isHovered, setHoveredCard] = useState<{ idx: number, idy: number }>({ idx: -1, idy: -1 });
-  const sideboardStackID = 100; //Needs to be large number
-
   const basicLandState = useSelector((state: RootState) => state.basicLandSlice);
+
+  const sideboardStackID = 100; //Needs to be large number
+  const deckMinimum = 40;
 
   const moveCardFromDeckToSideboard = (card: Card) => {
     setCardsInDeck(cards => cards.filter(c => c.customId !== card.customId));
@@ -31,7 +32,7 @@ const DeckCreator: React.FC = () => {
     setCardsInDeck(cardsInDeck => [...cardsInDeck, updatedCard]);
   }
 
-  //Memos for Sideboard and cmcValues
+  //Memos for Sideboard, lands and cmcValues
   const sideBoardCards = useMemo(() =>
     cardsNotInDeck.sort((a, b) => {
       const cmcA = a.cmc;
@@ -44,6 +45,16 @@ const DeckCreator: React.FC = () => {
       return a.name.localeCompare(b.name);
     })
   , [cardsNotInDeck])
+
+  const landsAmount: number = useMemo(() => {
+    const amount = cardsInDeck.filter((card) => {
+      console.log(card);
+      return card.type.toLocaleLowerCase().indexOf("land") >= 0;
+    });
+
+    return amount.length;
+  }
+  , [cardsInDeck]);
 
   const cmcValues = useMemo(() => 
     Array.from(new Set(cardsInDeck.map(card => card.cmc))).sort((a, b) => a - b)
@@ -80,29 +91,36 @@ const DeckCreator: React.FC = () => {
     <div className="min-w-[800px] max-w-[1800px] mx-auto">
       <div className="p-4 rounded-lg shadow-lg">
         <h1 className="text-center text-3xl font-bold text-white mb-4 block w-100">Deck Creator</h1>
-        <div className="text-white bg-neutral-800 mb-5 rounded-lg border-2 p-5">
-          <p>Add Basic Land</p>
-          <div>
-            {basicLandState.map((land: Card, idx: number) => (
-              <div onClick={() => addLandToDeck(land)} className="inline-block mr-2 cursor-pointer w-16 text-center text-sm" key={idx}>
-                <img src={land.image} alt={land.name} />
-                {land.name}
-              </div>
-            ))}
+        <div className="text-white bg-neutral-800 mb-5 rounded-lg border-2 p-5 flex justify-between">
+          <div className="left">
+            <h2>Add Basic Land</h2>
+            <div>
+              {basicLandState.map((land: Card, idx: number) => (
+                <div onClick={() => addLandToDeck(land)} className="inline-block mr-2 cursor-pointer w-16 text-center text-sm" key={idx}>
+                  <img src={land.image} alt={land.name} />
+                  {land.name}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="right">
+            <h2>Export Deck</h2>
           </div>
         </div>
         <div className="flex gap-x-6 p-5 bg-neutral-800 rounded-lg border-2">
-          <div className="w-5/6">
-            <h2 className="text-white text-center mb-6 border-b-2 pb-2">
-              Cards in Deck - <span className={cardsInDeck.length < 40 ? "text-red-500" : "text-green-500"}>{cardsInDeck.length}</span> / 40
+          <div className="w-7/8">
+            <h2 className="text-center mb-6 border-b-2">
+              Cards: [ <span className={cardsInDeck.length < deckMinimum ? "text-red-500" : "text-green-500"}>{cardsInDeck.length}</span> / <span className="text-white">{deckMinimum}</span> ]
+               - 
+              Lands: [ <span className="text-white">{landsAmount}</span> ]
             </h2>
             {mapCardsPerCMC()}
           </div>
-          <div className="w-1/6">
-            <h2 className="text-white text-center mb-4 border-b-2 pb-2">Cards in Sideboard</h2>
+          <div className="w-1/8">
+            <h2 className="text-center mb-4 border-b-2">Cards in Sideboard</h2>
             <CardStack hovered={isHovered} stackIdx={100} stacked={true} cards={sideBoardCards}
               onCardClick={moveCardFromSideboardToDeck}
-              onCardHover={(idx, idy) => setHoveredCard({ idx: sideboardStackID, idy })} //Arbitrarily high number 100
+              onCardHover={(_, idy) => setHoveredCard({ idx: sideboardStackID, idy })}
             />
           </div>
         </div>

@@ -1,6 +1,7 @@
 import * as Scry from "scryfall-sdk";
  
 import type { BoosterPack, BoosterPackSet, Card } from "./types";
+import { createCardFromScryfall } from "./CardUtils";
 
 const getRandomItems = (cards: Card[], amount: number): Card[] => {
     const randomItems: Card[] = cards.slice();
@@ -17,19 +18,7 @@ export async function GenerateBooster(setCode: string, playerAmount: number): Pr
         const rareMythicCardsAmount = 1;
 
         Scry.Cards.search("e:" + setCode.toLowerCase() + " is:booster -t:basic").on("data", card => {
-            allCardsInSet.push({ 
-                id: card.id || "",
-                name: card.name,
-                image: card.image_uris?.normal ?? "",
-                mana_cost: card.mana_cost || "",
-                colors: card.colors || [],
-                rarity: card.rarity || "",
-                set_name: card.set_name || "",
-                set_code: card.set || "",
-                cmc: card.cmc,
-                customId: ""
-            });
-
+            allCardsInSet.push(createCardFromScryfall(card));
         }).on("end", () => {
             const packs: BoosterPack[] = [];
 

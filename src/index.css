@@ -13,14 +13,17 @@ body {
   text-align:left;
 }
 
-.set-box img {
-
-}
-
 button:hover {
   border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+h2 {
+  font-weight:bold;
+  font-size:18px;
+  padding-bottom:5px;
+  color:#d599e7;
 }
