@@ -3,6 +3,7 @@ import { type RootState } from "./store";
 import { useSelector } from "react-redux";
 import type { Card } from "./types";
 import CardStack from "./CardStack";
+import DeckExporter from "./DeckExporter";
 
 const DeckCreator: React.FC = () => {
   const chosenCardInventory = useSelector((state: RootState) =>  state.chosenCardsSlice);
@@ -48,7 +49,6 @@ const DeckCreator: React.FC = () => {
 
   const landsAmount: number = useMemo(() => {
     const amount = cardsInDeck.filter((card) => {
-      console.log(card);
       return card.type.toLocaleLowerCase().indexOf("land") >= 0;
     });
 
@@ -105,6 +105,9 @@ const DeckCreator: React.FC = () => {
           </div>
           <div className="right">
             <h2>Export Deck</h2>
+            <div>
+              <DeckExporter cardsInDeck={cardsInDeck} cardsInSideboard={cardsNotInDeck} />
+            </div>
           </div>
         </div>
         <div className="flex gap-x-6 p-5 bg-neutral-800 rounded-lg border-2">

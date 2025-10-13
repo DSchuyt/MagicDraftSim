@@ -28,7 +28,7 @@ const Inventory: React.FC = () => {
         .map(([name, cards]) => (
           <div key={name}>
             {cards.map((c, idx) => {
-              return <img key={c.id} src={c.image || ""} alt={c.name} className={idx > 0 ? stackOffset : ""} />
+              return <img key={c.customId + c.id} src={c.image || ""} alt={c.name} className={idx > 0 ? stackOffset : ""} />
             })}
             <div>{name} x{cards.length}</div>
           </div>
