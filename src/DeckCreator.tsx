@@ -60,14 +60,14 @@ const DeckCreator: React.FC = () => {
     Array.from(new Set(cardsInDeck.map(card => card.cmc))).sort((a, b) => a - b)
   , [cardsInDeck]);
 
-  const mapCardsPerCMC = () => {
+  function mapCardsPerCMC() {
     return (
       <div>
         <div className="hidden grid-cols-1 grid-cols-2 grid-cols-3 grid-cols-4 grid-cols-5 grid-cols-6 grid-cols-7 grid-cols-8 grid-cols-9 grid-cols-10" />
         <div className={`grid grid-cols-${cmcValues.length}`}>
           {cmcValues.map((cmc, idx) => {
             const cards = cardsInDeck.filter((c) => c.cmc === cmc).sort((a, b) => a.name.localeCompare(b.name));
-            
+
             return (
               <div key={idx} className="relative">
                 <div>
@@ -85,7 +85,7 @@ const DeckCreator: React.FC = () => {
         </div>
       </div>
     );
-  };
+  }
 
   return (
     <div className="min-w-[800px] max-w-[1800px] mx-auto">

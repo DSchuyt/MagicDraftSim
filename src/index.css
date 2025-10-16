@@ -21,9 +21,20 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+h1 {
+  font-weight:bold;
+  font-size:24px;
+  padding-bottom:5px;
+  color:#95d5ff;
+}
+
 h2 {
   font-weight:bold;
   font-size:18px;
   padding-bottom:5px;
   color:#d599e7;
+}
+
+.clickButton {
+  @apply rounded bg-blue-500 px-4 py-2
 }

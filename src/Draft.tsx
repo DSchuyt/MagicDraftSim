@@ -92,7 +92,7 @@ const Draft = ({ handleFinishDraft }: { handleFinishDraft: () => void }) => {
         {currentBoosterSet >= 2 && boosterSetsState.boosterSets[currentBoosterSet].packs[currentPlayerBooster].cards.length === 0
             ? <div>Draft cards are empty</div> 
             : boosterSetsState.boosterSets[currentBoosterSet].packs[currentPlayerBooster].cards.map((card, idx) =>
-                <div onClick={() => handleCardPick(card)} key={card.customId + card.id} className="inline cursor-pointer"><img src={card.image} alt={card.name} className={`w-full max-w-full h-auto rounded-md border-4 transition-transform duration-100 hover:scale-[2] hover:shadow-2x1 hover:-translate-y-2
+                <div onClick={() => handleCardPick(card)} key={card.customId + card.id} className="inline cursor-pointer"><img src={card.image} alt={card.name} className={`w-full max-w-full h-auto rounded-md border-4 transition-transform duration-100 hover:scale-[1.5] hover:shadow-2x1 hover:-translate-y-2
                     ${card.rarity === "common" ? "border-gray-800" 
                     : card.rarity === "uncommon" ? "border-[#E0E0E0]" 
                     : card.rarity === "rare" || card.rarity === "mythic" ? "border-[#FFA500]" : "" }`} />
