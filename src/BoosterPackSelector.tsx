@@ -38,9 +38,9 @@ const BoosterPackSelector = ({ index, setList }: BoosterPackSelectorProps) => {
   }, [players, setSelectValue]);
 
   return (
-    <div className="bg-gray-500 rounded-lg shadow-lg p-4">
+    <div className="bg-gray-500 rounded-lg shadow-lg px-4 py-3 h-[500px] flex flex-col justify-start">
       <h2 className="text-xl font-bold mb-4">Booster Pack {index + 1}</h2>
-      <div className="set-box">
+      <div className="set-box flex-1 flex flex-col justify-center items-center">
         <select value={chosenSet.code || ""} className="px-3 py-2 border rounded text-gray-900 w-full" ref={setSelect} onChange={(e) => onChange(e.target.value)}>
           <option key="default" value="" disabled hidden>Choose a set</option>
           {setList.map((s) => (
@@ -49,12 +49,12 @@ const BoosterPackSelector = ({ index, setList }: BoosterPackSelectorProps) => {
             </option>
           ))}
         </select>
-        <div>
+        <div className="flex flex-col justify-center items-center flex-1">
+          <div className="p-4 w-48 h-48 mx-auto">
           {chosenSet && Object.keys(chosenSet).length ?
-            <div>
-              <img className="w-32 h-32 mx-auto" src={chosenSet.icon_svg_uri} /> 
-            </div>
+            <img src={chosenSet.icon_svg_uri} /> 
           : "" }
+          </div>
         </div>
       </div>
     </div>
