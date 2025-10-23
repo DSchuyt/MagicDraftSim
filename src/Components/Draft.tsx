@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { chosenCardsSlice, boosterSlice, basicLandSlice, type RootState } from './store';
-import type { Card } from "./types";
-import Inventory from "./Inventory";
+import { chosenCardsSlice, boosterSlice, basicLandSlice, type RootState } from '../store';
+import type { Card } from "../types";
+import Inventory from "../Components/Inventory";
 import * as Scry from "scryfall-sdk";
-import { createCardFromScryfall } from "./CardUtils";
+import { createCardFromScryfall } from "../Utils/CardUtils";
 
 const Draft = ({ handleFinishDraft }: { handleFinishDraft: () => void }) => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const Draft = ({ handleFinishDraft }: { handleFinishDraft: () => void }) => {
   const [currentPlayerBooster, setCurrentPlayerBooster] = useState<number>(0);
 
   const boosterSetsState = useSelector((state: RootState) => state.boosterSets)
-  const amountOfPlayers = useSelector((state:RootState) => state.playerSlice);
+  const amountOfPlayers = useSelector((state:RootState) => state.playerSlice.value);
   const chosenCardInventory = useSelector((state: RootState) =>  state.chosenCardsSlice )
 
   const handleCardPick = (card:Card) => {
@@ -81,14 +81,14 @@ const Draft = ({ handleFinishDraft }: { handleFinishDraft: () => void }) => {
     }
     else {
         //Active booster pack is not empty, load the next one
-        currentPlayerBooster === amountOfPlayers.value - 1 ? setCurrentPlayerBooster(0) : setCurrentPlayerBooster(currentPlayerBooster + 1);
+        currentPlayerBooster === amountOfPlayers - 1 ? setCurrentPlayerBooster(0) : setCurrentPlayerBooster(currentPlayerBooster + 1);
     }
   }
 
   return (
-    <div className="max-w-[1200px] mx-auto m-5">
+    <div className="max-w-[1200px] mx-auto p-5">
       <h1 className="text-2xl font-bold text-white mb-4">Drafting Booster Pack Set {currentBoosterSet + 1}</h1>
-      <div className="grid grid-cols-5 gap-5 bg-gray-500 rounded-lg shadow-lg p-4">
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 bg-gray-500 rounded-lg shadow-lg p-4">
         {currentBoosterSet >= 2 && boosterSetsState.boosterSets[currentBoosterSet].packs[currentPlayerBooster].cards.length === 0
             ? <div>Draft cards are empty</div> 
             : boosterSetsState.boosterSets[currentBoosterSet].packs[currentPlayerBooster].cards.map((card, idx) =>

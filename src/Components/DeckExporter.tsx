@@ -1,6 +1,6 @@
-import type { Card } from './types';
+import type { Card } from '../types';
 import { useState, useRef } from "react";
-import Modal from './Modal';
+import Modal from '../Utils/Modal';
 
 interface DeckExporterProps {
   cardsInDeck: Card[];

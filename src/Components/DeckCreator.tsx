@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
-import { type RootState } from "./store";
+import { useState, useMemo } from "react";
+import { type RootState } from "../store";
 import { useSelector } from "react-redux";
-import type { Card } from "./types";
-import CardStack from "./CardStack";
+import type { Card } from "../types";
+import CardStack from "../Utils/CardStack";
 import DeckExporter from "./DeckExporter";
 
 const DeckCreator: React.FC = () => {
@@ -13,7 +13,7 @@ const DeckCreator: React.FC = () => {
   const [isHovered, setHoveredCard] = useState<{ idx: number, idy: number }>({ idx: -1, idy: -1 });
   const basicLandState = useSelector((state: RootState) => state.basicLandSlice);
 
-  const sideboardStackID = 100; //Needs to be large number
+  const sideboardStackID = 100; //Needs to be large number to account for possible changing mana values
   const deckMinimum = 40;
 
   const moveCardFromDeckToSideboard = (card: Card) => {
@@ -91,7 +91,7 @@ const DeckCreator: React.FC = () => {
     <div className="min-w-[800px] max-w-[1800px] mx-auto">
       <div className="p-4 rounded-lg shadow-lg">
         <h1 className="text-center text-3xl font-bold text-white mb-4 block w-100">Deck Creator</h1>
-        <div className="text-white bg-neutral-800 mb-5 rounded-lg border-2 p-5 flex justify-between">
+        <div className="text-white bg-neutral-800 bg-opacity-50 mb-5 rounded-lg border-2 p-5 flex justify-between">
           <div className="left">
             <h2>Add Basic Land</h2>
             <div>
@@ -110,7 +110,7 @@ const DeckCreator: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex gap-x-6 p-5 bg-neutral-800 rounded-lg border-2">
+        <div className="flex gap-x-6 p-5 bg-neutral-800 bg-opacity-50 rounded-lg border-2">
           <div className="w-7/8">
             <h2 className="text-center mb-6 border-b-2">
               Cards: [ <span className={cardsInDeck.length < deckMinimum ? "text-red-500" : "text-green-500"}>{cardsInDeck.length}</span> / <span className="text-white">{deckMinimum}</span> ]

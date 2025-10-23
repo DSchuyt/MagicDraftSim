@@ -1,7 +1,7 @@
 import * as Scry from "scryfall-sdk";
  
-import type { BoosterPack, BoosterPackSet, Card } from "./types";
-import { createCardFromScryfall } from "./CardUtils";
+import type { BoosterPack, BoosterPackSet, Card } from "../types";
+import { createCardFromScryfall } from "../Utils/CardUtils";
 
 const getRandomItems = (cards: Card[], amount: number): Card[] => {
     const randomItems: Card[] = cards.slice();

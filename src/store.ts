@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import type { BoosterPackSet } from './types';
-import { GenerateBooster } from './GenerateBooster';
+import { GenerateBooster } from './Components/GenerateBooster';
 import type { Card } from './types';
 
 interface multipleBoosterSets {
